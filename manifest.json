@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+
+  "name": "Facebook - Bookmark Post",
+  "description": "This extension bookmarks Facebook posts",
+  "version": "1.1",
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": [
+      "bookmarks"
+  ],
+  "web_accessible_resources": ["js/jquery-latest.min.map"],
+  "content_scripts": [
+    {
+      "matches": ["http://www.facebook.com/*","https://www.facebook.com/*"],
+      "js": ["js/jquery-latest.min.js","bookmarkcontentscript.js"]
+    }
+  ]
+}
