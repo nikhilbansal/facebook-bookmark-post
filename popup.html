@@ -1,31 +1,54 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Getting Started Extension's Popup</title>
-    <style>
-      body {
-        min-width: 357px;
-        overflow-x: hidden;
-      }
 
-      img {
-        margin: 5px;
-        border: 2px solid black;
-        vertical-align: middle;
-        width: 75px;
-        height: 75px;
-      }
-    </style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width">
 
-    <!--
-      - JavaScript and HTML must be in separate files: see our Content Security
-      - Policy documentation[1] for details and explanation.
-      -
-      - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
-     -->
-    <script src="popup.js"></script>
-  </head>
-  <body>
-  </body>
+	<title>FaceBook</title>
+	<link href='http://fonts.googleapis.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="img/styling.css" />
+	<script src="popup.js"></script>
+	
+</head>
+<body>
+
+	<section class="tab-area tabs-target">
+
+		<span class="target-fix" id="tabC"></span>
+		<span class="target-fix" id="tabB"></span>
+		
+		<a class="tab-link" href="#tabA"><img src="img/settings2.png" width=20 height=20 /></a>
+		<a class="tab-link" href="#tabB"><img src="img/social.png" width=20 height=20 /></a>
+		
+		<article class="tab">
+			<input type="checkbox" >
+			<label class="ask" >Always ask where to save.</label>
+			<br/><br/>
+			&nbsp;&nbsp;
+			<label class="ask" >Default location</label>	<br/>
+			<label >
+			 &nbsp;&nbsp;   <select class="ask">
+				<option selected> Select Box </option>
+				<option> ROOT </option>
+				<option> myBookmarks </option>
+			    </select>
+			</label>
+                          <div id="bookmarks"></div>
+
+		</article>
+		<article class="tab">
+			<p class="social">We are Social</p>
+			<p>
+				<ul>				
+				<li><img src="img/facebook.png" width=45 height=41 /></li> &nbsp;&nbsp;
+				<li><img src="img/twitter.png" width=40 height=40 /></li>&nbsp;&nbsp;
+				<li><img src="img/google.png" width=40 height=40 /></li>
+				</ul>
+			</p>
+		</article>
+	</section>
+
+</body>
 </html>
-
