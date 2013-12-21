@@ -19,7 +19,7 @@ function getPostLink(postInfo){
 
 function appendBookmarkTab(){
     var postInfoList = document.getElementsByClassName('_5pcp');
-    for(var i = 0; i < postInfoList.length; i++) {
+    for(var i = postInfoList.length - 1; i >= 0; i--) {
 	var postInfo = postInfoList.item(i);
 	var postLinkElement = getPostLink(postInfo);
 	if(postLinkElement != null){
@@ -83,12 +83,22 @@ function bookmark(postLinkElement){
 	}
 	//console.log("postUrl : " + postLinkElement.href);
 	//console.log("postTitle : " + title);
-	chrome.runtime.sendMessage({url: postLinkElement.href, title: title}, function(response) {
-	//	console.log(response.farewell);
-		done = response.farewell;
-	});
+	chrome.storage.sync.get('bookmark_location', function (result) {
+        	bookmark_location = result.bookmark_location;
+		if(typeof bookmark_location === 'undefined'){
+			// User has not set the bookmark location in his/her preferences
+			alert("undefined");
+			// Get the user to set the Bookmark location
+			chrome.storage.sync.set({'bookmark_location': 'dummy'}, function() {
+				chrome.runtime.sendMessage({url: postLinkElement.href, title: title}, function(response) {
+					displayBookmarkTopMessage(response.responseMessage);
+				});
+			});
+ 		};
+        });
+	//alert(done);
 	//alert("Bookmark created");
-	displayBookmarkTopMessage("Bookmark created");
+	//displayBookmarkTopMessage("Bookmark created");
 }
 
 function getTitle(postInfo)
@@ -105,6 +115,7 @@ function getTitle(postInfo)
 }
 
 function displayBookmarkTopMessage(message){
-var blueBar = $('bluebar');
-$("<div />", { class: 'topbar', text: message }).hide().appendTo("#blueBar").slideDown('fast').delay(2000).slideUp(function() { $(this).remove(); });
+	$("<div />", { class: 'topbar', text: message }).hide().appendTo("#blueBar").slideDown('fast').delay(2000).slideUp(function() { $(this).remove(); });
 }
+
+
