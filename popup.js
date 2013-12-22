@@ -1,4 +1,5 @@
 var defaultLocation = "";
+var bookmark_ids=new Array(); 
 function onchangeFolderLocation(id)
 {
 	chrome.storage.sync.get("bookmark_location", function (obj) {
@@ -13,24 +14,32 @@ function onchangeFolderLocation(id)
 }
 var folderlist="<select id='folderlocation' class='ask' >";
 var foldername ="";
-function printAllBookmarks() {
-	var id="1";
-	var listDiv="<label class='listAll' >";
+var listDiv="<label class='listAll' ><ul>";
+function printBookmarkForNode(id)
+{
 	chrome.bookmarks.getChildren(id, function(children) {
-		//console.debug(children);
-	 	for (i = 0; i < children.length; i++) {
-			if(children[i].url){
-				listDiv += '<p >'+children[i].title+'</p>';
+		children.forEach(function(bookmark) { 
+			
+			if(bookmark.url) {
+				//console.debug(bookmark_ids);
+				if(bookmark_ids.indexOf(bookmark.id.toString()) > 0){
+					console.debug(bookmark.id);
+					listDiv += '<li><a href="'+bookmark.url+'" target="_blank" >'+bookmark.title+'</a></li>';
+				}
 			}
-  		}
-		listDiv+=listDiv+'</label>';
-		document.getElementById("listAllBookmarks").innerHTML=listDiv;
- 	});
+			printBookmarkForNode(bookmark.id);
+		});
+	});	
+	listDiv+='</ul></label>';
+	document.getElementById("listAllBookmarks").innerHTML=listDiv;
 }
-function loadBookmarkLocations(id) {
+function printAllBookmarks() {
+	printBookmarkForNode('1');
+}
 
+function loadBookmarkLocations(id) {
 	chrome.bookmarks.getChildren(id, function(children) {
-		//console.debug(children);
+		console.debug(children);
 	 	for (i = 0; i < children.length; i++) {
 			if(!children[i].url){
 				if(children[i].id == defaultLocation)  //watever nikil set variable
@@ -46,6 +55,15 @@ function loadBookmarkLocations(id) {
 										},false);
 	});
 }
+function updateBookmarkedIds()
+{
+	chrome.storage.sync.get('bookmark_ids', function (bookmark_ids_object){
+		if(bookmark_ids_object.bookmark_ids){
+			bookmark_ids=bookmark_ids_object.bookmark_ids.split(",");
+		}
+		printAllBookmarks(); 
+	});
+}
 document.addEventListener('DOMContentLoaded', function () {
 	chrome.storage.sync.get("bookmark_location", function (obj) {
     		defaultLocation=obj.bookmark_location;
@@ -54,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			chrome.storage.sync.set({"bookmark_location":"1"}, function () {});
 		}
 		loadBookmarkLocations('1'); 
-		printAllBookmarks(); 
+		updateBookmarkedIds();
+		
 	});
 });
