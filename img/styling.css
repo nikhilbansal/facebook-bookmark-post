@@ -3,7 +3,7 @@ body {
   background: #ddd;
   padding: 0 0%;
   color: #555;
-  min-width: 300px;
+  min-width: 500px;
   max-width: 1300px;
   margin: 0 auto;
 }
@@ -11,6 +11,7 @@ body {
 a {
   text-decoration: none;
   color: teal;
+  font-size:13px;
 }
 .social{
 	font-family: 'Exo 2', sans-serif;
@@ -22,13 +23,13 @@ a {
 .ask{
 	font-family: 'Exo 2', sans-serif;
 	color: #31434a;
-	font-size:15px;
+	font-size:16px;
 	font-weight:normal;
 }
 .listAll{
 	font-family: 'Exo 2', sans-serif;
 	color: #31434a;
-	font-size:10px;
+	font-size:15px;
 	font-weight:normal;
 }
 
