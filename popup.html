@@ -9,8 +9,6 @@
 	<title>FaceBook</title>
 	<link href='http://fonts.googleapis.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="img/styling.css" />
-	<script src="popup.js"></script>
-	
 </head>
 <body>
 
@@ -29,13 +27,9 @@
 			&nbsp;&nbsp;
 			<label class="ask" >Default location</label>	<br/>
 			<label >
-			 &nbsp;&nbsp;   <select class="ask">
-				<option selected> Select Box </option>
-				<option> ROOT </option>
-				<option> myBookmarks </option>
-			    </select>
+			     <div id="bookmarks"></div>
 			</label>
-                          <div id="bookmarks"></div>
+                       
 
 		</article>
 		<article class="tab">
@@ -49,6 +43,7 @@
 			</p>
 		</article>
 	</section>
-
+<script src="js/jquery-latest.min.js"></script>
+<script src="popup.js"></script>
 </body>
 </html>
