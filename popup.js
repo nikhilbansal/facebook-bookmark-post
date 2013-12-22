@@ -102,4 +102,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	document.getElementById("titleEditor").addEventListener('click', function() {
 										onclickTitleEditor(this.checked);
 										},false);
+
+var like='<iframe src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fpages%2FFB-Bookmark-Post%2F1441303972751258&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=80&amp;appId=277671059020997" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:80px;" allowTransparency="true"></iframe>';
+document.getElementById("facebookLike").innerHTML=like;
+
 });
