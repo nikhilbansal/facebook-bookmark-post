@@ -48,6 +48,14 @@ function appendBookmarkTab(){
 }
 appendBookmarkTab();
 
+function createNewBookmarkFolder(){
+	chrome.runtime.sendMessage({bookmark_location: "Facebook Posts"}, function(response) {
+		console.log("bookmark_location set");
+	});
+}
+
+createNewBookmarkFolder();
+
 function listener()
 {
     console.debug("listener fired.");
@@ -85,16 +93,13 @@ function bookmark(postLinkElement){
 	//console.log("postTitle : " + title);
 	chrome.storage.sync.get('bookmark_location', function (result) {
         	bookmark_location = result.bookmark_location;
-		if(typeof bookmark_location === 'undefined'){
+		if(bookmark_location){
 			// User has not set the bookmark location in his/her preferences
-			alert("undefined");
 			// Get the user to set the Bookmark location
-			chrome.storage.sync.set({'bookmark_location': 'dummy'}, function() {
-				chrome.runtime.sendMessage({url: postLinkElement.href, title: title}, function(response) {
+			chrome.runtime.sendMessage({url: postLinkElement.href, title: title}, function(response) {
 					displayBookmarkTopMessage(response.responseMessage);
-				});
 			});
- 		};
+ 		}
         });
 	//alert(done);
 	//alert("Bookmark created");
