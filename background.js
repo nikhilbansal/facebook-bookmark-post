@@ -6,7 +6,7 @@ function install_notice() {
     localStorage.setItem('install_time', now);
     chrome.bookmarks.create({'parentId': '1','title': "Facebook Posts"},function(newFolder) {
         chrome.storage.sync.set({'bookmark_location': newFolder.id}, function() {
-		chrome.tabs.create({url: "http://www.google.com"});
+		chrome.tabs.create({url: "http://www.digitalgradient.com/facebookbookmarkpost/"});
     	});
     });
 }
