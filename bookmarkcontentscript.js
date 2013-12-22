@@ -99,7 +99,7 @@ function bookmark(postLinkElement){
 			chrome.storage.sync.get('bookmark_title_editor', function (result_bookmark_title_editor) {
 				bookmark_title_editor = result_bookmark_title_editor.bookmark_title_editor;
 				console.debug(bookmark_title_editor);
-				if(!(bookmark_title_editor && bookmark_title_editor.localeCompare("1")==0)){
+				if(bookmark_title_editor && bookmark_title_editor.localeCompare("1")==0){
 					var opt = {
 						autoOpen: false,
 						modal: true,
@@ -124,7 +124,18 @@ function bookmark(postLinkElement){
 							$(this).remove();
 							
 						},
-						open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); }
+						open: function(event, ui) { 
+							$(".ui-dialog-titlebar-close").hide(); 
+							$("#dialog-form").keypress(function(e) {
+								if (e.keyCode == $.ui.keyCode.ENTER) {
+									e.preventDefault();
+        								chrome.runtime.sendMessage({url: postLinkElement.href, title: $('#title').val()}, function(response) {
+										displayBookmarkTopMessage(response.responseMessage);
+									});
+									$( this ).dialog( "close" );
+      								}
+							});
+						}
 					};
 					console.debug("New title : " + title);
 					$("<div id=\"dialog-form\"><form><label for=\"name\">Bookmark Title</label><input type=\"text\" id=\"title\" value=\""+ title  +"\" style='width:100%'></    form></div>").dialog(opt).dialog("open");

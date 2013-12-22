@@ -23,7 +23,7 @@ function printBookmarkForNode(id)
 			
 			if(bookmark.url) {
 				//console.debug(bookmark_ids);
-				if(bookmark_ids.indexOf(bookmark.id.toString()) > 0){
+				if(bookmark_ids.indexOf(bookmark.id.toString()) >= 0){
 					//console.debug(bookmark.id);
 					listDiv += '<li><a href="'+bookmark.url+'" target="_blank" >'+bookmark.title+'</a></li>';
 				}
@@ -77,6 +77,10 @@ function onclickTitleEditor(status)
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+	console.log("response");
+	chrome.runtime.sendMessage({bookmark_location: "Facebook Posts"}, function(response) {
+		console.log(response);
+	});
 	chrome.storage.sync.get("bookmark_location", function (obj) {
     		defaultLocation=obj.bookmark_location;
 		//console.debug("initial def loc "+defaultLocation);
@@ -97,5 +101,4 @@ document.addEventListener('DOMContentLoaded', function () {
 	document.getElementById("titleEditor").addEventListener('click', function() {
 										onclickTitleEditor(this.checked);
 										},false);
-		
 });
