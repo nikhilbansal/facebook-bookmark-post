@@ -1,5 +1,6 @@
 var defaultLocation = "";
 var bookmark_ids=new Array(); 
+var bookmark_titleEditor = "0";
 function onchangeFolderLocation(id)
 {
 	chrome.storage.sync.get("bookmark_location", function (obj) {
@@ -23,7 +24,7 @@ function printBookmarkForNode(id)
 			if(bookmark.url) {
 				//console.debug(bookmark_ids);
 				if(bookmark_ids.indexOf(bookmark.id.toString()) > 0){
-					console.debug(bookmark.id);
+					//console.debug(bookmark.id);
 					listDiv += '<li><a href="'+bookmark.url+'" target="_blank" >'+bookmark.title+'</a></li>';
 				}
 			}
@@ -39,7 +40,7 @@ function printAllBookmarks() {
 
 function loadBookmarkLocations(id) {
 	chrome.bookmarks.getChildren(id, function(children) {
-		console.debug(children);
+		//console.debug(children);
 	 	for (i = 0; i < children.length; i++) {
 			if(!children[i].url){
 				if(children[i].id == defaultLocation)  //watever nikil set variable
@@ -64,10 +65,21 @@ function updateBookmarkedIds()
 		printAllBookmarks(); 
 	});
 }
+function onclickTitleEditor(status)
+{
+	if(status){
+		chrome.storage.sync.set({"bookmark_title_editor":"1"}, function () {});
+		bookmark_titleEditor="1";
+	}else{
+		chrome.storage.sync.set({"bookmark_title_editor":"0"}, function () {});
+		bookmark_titleEditor="0";
+	}
+}
+
 document.addEventListener('DOMContentLoaded', function () {
 	chrome.storage.sync.get("bookmark_location", function (obj) {
     		defaultLocation=obj.bookmark_location;
-		console.debug("initial def loc "+defaultLocation);
+		//console.debug("initial def loc "+defaultLocation);
 		if(!defaultLocation){
 			chrome.storage.sync.set({"bookmark_location":"1"}, function () {});
 		}
@@ -75,4 +87,15 @@ document.addEventListener('DOMContentLoaded', function () {
 		updateBookmarkedIds();
 		
 	});
+	chrome.storage.sync.get("bookmark_title_editor", function (obj) {
+			bookmark_titleEditor=obj.bookmark_title_editor;
+			if(bookmark_titleEditor=="1")
+				document.getElementById("titleEditor").checked=true;
+			else	
+				document.getElementById("titleEditor").checked=false;
+	});
+	document.getElementById("titleEditor").addEventListener('click', function() {
+										onclickTitleEditor(this.checked);
+										},false);
+		
 });
