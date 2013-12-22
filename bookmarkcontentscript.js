@@ -96,9 +96,61 @@ function bookmark(postLinkElement){
 		if(bookmark_location){
 			// User has not set the bookmark location in his/her preferences
 			// Get the user to set the Bookmark location
+			chrome.storage.sync.get('bookmark_title_editor', function (result_bookmark_title_editor) {
+				bookmark_title_editor = result_bookmark_title_editor.bookmark_title_editor;
+				console.debug(bookmark_title_editor);
+				if(bookmark_title_editor && bookmark_title_editor.localeCompare("1")==0){
+					var opt = {
+						autoOpen: false,
+						modal: true,
+						width: 450,
+						height:150,
+						title: 'Bookmark Post',
+						buttons: { 
+							"Bookmark": function() {
+							$("<div id=\"dialog-form\"><form><label for=\"name\">Bookmark Title</label><input type=\"text\" id=\"title\" value=\""+ title  +"\" style    ='width:100%'></    form></div>").dialog(opt).dialog("open");
+							chrome.runtime.sendMessage({url: postLinkElement.href, title: title}, function(response) {
+								displayBookmarkTopMessage(response.responseMessage);
+								$( this ).dialog( "close" );
+							});
+							},
+							Cancel: function() {
+								$( this ).dialog( "close" );
+							}
+						},
+						open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); }
+					};
+					$("<div id=\"dialog-form\"><form><label for=\"name\">Bookmark Title</label><input type=\"text\" id=\"title\" value=\""+ title  +"\" style='width:100%'></    form></div>").dialog(opt).dialog("open");
+				}else{
+					chrome.runtime.sendMessage({url: postLinkElement.href, title: title}, function(response) {
+						displayBookmarkTopMessage(response.responseMessage);
+					});
+				}
+			});
+/*
+			var opt = {
+        			autoOpen: false,
+        			modal: true,
+        			width: 450,
+        			height:150,
+        			title: 'Bookmark Post',
+			        buttons: {
+ 			       "Bookmark": function() {
+ 				console.debug("account");
+            			$( this ).dialog( "close" );
+        			},
+        			Cancel: function() {
+          				$( this ).dialog( "close" );
+        			}
+      				},
+				open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); }
+			};
+			$("<div id=\"dialog-form\"><form><label for=\"name\">Bookmark Title</label><input type=\"text\" id=\"title\" value=\""+ title  +"\" style='width:100%'></form></div>").dialog(opt).dialog("open");
+			//$( "#dialog-form" ).dialog( "open" );
 			chrome.runtime.sendMessage({url: postLinkElement.href, title: title}, function(response) {
 					displayBookmarkTopMessage(response.responseMessage);
 			});
+*/
  		}
         });
 	//alert(done);
