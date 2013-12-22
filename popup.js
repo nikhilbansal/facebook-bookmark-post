@@ -77,10 +77,11 @@ function onclickTitleEditor(status)
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-	console.log("response");
+/*	console.log("response");
 	chrome.runtime.sendMessage({bookmark_location: "Facebook Posts"}, function(response) {
 		console.log(response);
 	});
+*/
 	chrome.storage.sync.get("bookmark_location", function (obj) {
     		defaultLocation=obj.bookmark_location;
 		//console.debug("initial def loc "+defaultLocation);

@@ -1,3 +1,17 @@
+function install_notice() {
+    if (localStorage.getItem('install_time'))
+        return;
+
+    var now = new Date().getTime();
+    localStorage.setItem('install_time', now);
+    chrome.bookmarks.create({'parentId': '1','title': "Facebook Posts"},function(newFolder) {
+        chrome.storage.sync.set({'bookmark_location': newFolder.id}, function() {
+		chrome.tabs.create({url: "http://www.google.com"});
+    	});
+    });
+}
+install_notice();
+
 var found;
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
