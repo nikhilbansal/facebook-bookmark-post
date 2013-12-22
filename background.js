@@ -65,9 +65,26 @@ chrome.runtime.onMessage.addListener(
 		chrome.storage.sync.get('bookmark_location', function (result) {
 			id = result.bookmark_location;
 			if (id){
-				chrome.bookmarks.create({'parentId': id,'title': request.title, 'url': request.url});
-				responseJson={"response":true,"responseMessage":"Bookmark created successfully"};
-				sendResponse(responseJson);
+				chrome.bookmarks.create({'parentId': id,'title': request.title, 'url': request.url},function(bookmarkCreated){
+					var newBookmarkId = bookmarkCreated.id;
+					console.debug("newBookmarkId : " + newBookmarkId);
+					chrome.storage.sync.get('bookmark_ids', function (bookmark_ids_object){
+						var bookmark_ids = bookmark_ids_object.bookmark_ids;
+						console.debug("bookmark_ids : " + bookmark_ids);
+						if(bookmark_ids){
+							var h = toObject(bookmark_ids);
+						}else{
+							var h = {};
+						}
+						console.debug("ids from local storage : " + h);
+						h[newBookmarkId]=1;
+						chrome.storage.sync.set({bookmark_ids: toString(h)}, function() {
+							console.debug("toString(h) : " + toString(h));
+							responseJson={"response":true,"responseMessage":"Bookmark created successfully"};
+							sendResponse(responseJson);
+						});
+					});
+				});
 			}else{
 				console.log("Where to save bookmarks ?, id not found");
 			}
@@ -88,4 +105,30 @@ function printBookmarks(id) {
       printBookmarks(bookmark.id);
     });
  });
+}
+
+function toString(h){
+    console.debug(h);
+    var res = "";
+    for (var k in h) {
+    // use hasOwnProperty to filter out keys from the Object.prototype
+        if (h.hasOwnProperty(k)) {
+            if(!res.localeCompare("")==0){
+                res = res + ",";
+            }   
+            res = res + k;
+        }
+    }
+    return res;
+}
+
+
+function toObject(h){
+    var arr = h.split(",");
+    console.debug(arr);
+    var h = {};
+    arr.map( function(item) {
+     h[item]=1;
+    });
+    return h;
 }
