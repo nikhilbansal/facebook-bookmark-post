@@ -19,7 +19,7 @@
   "content_scripts": [
     {
       "matches": ["http://www.facebook.com/*","https://www.facebook.com/*"],
-      "css": ["css/jquery-ui.css"],
+      "css": ["css/jquery-ui.css","fonts/fonts.css"],
       "js": ["js/jquery-1.9.1.js","js/confirm.js","js/jquery-ui.js","bookmarkcontentscript.js"]
     }
   ]
