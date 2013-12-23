@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Exo 2';
+  font-style: normal;
+  font-weight: 400;
+  src: url('N9KSa305HxlY5zk6XisHxw.ttf');;
+}
+
 body {
   font: 12px/18px Arial;
   background: #ddd;
