@@ -10,6 +10,14 @@ function getPostLink(postInfo){
 			var possibleTimePost = eachPostEachItem.children.item(0);
 			if(possibleTimePost.nodeName == "A" && possibleTimePost.href != null && possibleTimePost.className!=null && possibleTimePost.className == "_5pcq"){
 				return possibleTimePost;
+			}else{
+				//16/04/2014 - Facebook DOM Change
+				if(possibleTimePost.nodeName == "SPAN" && possibleTimePost.children != null){
+					possibleTimePost = possibleTimePost.children.item(0);
+					if(possibleTimePost.nodeName == "A" && possibleTimePost.href != null && possibleTimePost.className!=null && possibleTimePost.className == "_5pcq"){
+						return possibleTimePost;
+					}
+				}
 			}
 		}
 	}
@@ -39,8 +47,14 @@ function appendBookmarkTab(){
 			//console.log("=> postLinkElement : " + evt.target.param);
 			bookmark(evt.target.param);
 		}, false);
+/*		console.log("*****************************");
+		console.log(postLinkElement.parentNode.parentNode.parentNode);
+		console.log(separatorTextNode);
+		console.log(postLinkElement.parentNode);
+		console.log(separatorTextNode.parentNode);
+		console.log(textNode);
+*/
     		textNode.appendChild(inputNode);
-		textNode = textNode;
 		postLinkElement.parentNode.parentNode.insertBefore(separatorTextNode, postLinkElement.parentNode);
     		separatorTextNode.parentNode.insertBefore(textNode, separatorTextNode);
 	}

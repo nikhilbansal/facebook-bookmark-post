@@ -1,13 +1,39 @@
+function iterate( bookmark)
+{ 
+  if(bookmark.title && bookmark.title == "Facebook Posts"){
+        console.log(bookmark.title + " " + bookmark.id);
+        return bookmark.id;
+  }
+
+  if( bookmark.children)
+  { 
+    for(var i = 0; i < bookmark.children.length ; i++ ){
+      var id = iterate( bookmark.children[i] );
+      if(id != null)	return id;
+    }
+  }
+}
+
 function install_notice() {
     if (localStorage.getItem('install_time'))
         return;
 
     var now = new Date().getTime();
     localStorage.setItem('install_time', now);
-    chrome.bookmarks.create({'parentId': '1','title': "Facebook Posts"},function(newFolder) {
-        chrome.storage.sync.set({'bookmark_location': newFolder.id}, function() {
-		chrome.tabs.create({url: "http://www.digitalgradient.com/facebookbookmarkpost/"});
-    	});
+    chrome.bookmarks.getTree( function(bookmarks){
+	var id = iterate(bookmarks[0]);
+	console.log(id);
+	if(id == null){
+    	    chrome.bookmarks.create({'parentId': '1','title': "Facebook Posts"},function(newFolder) {
+        	chrome.storage.sync.set({'bookmark_location': newFolder.id}, function() {
+		    chrome.tabs.create({url: "http://www.digitalgradient.com/facebookbookmarkpost/"});
+    		});
+    	    });
+        }else{
+		chrome.storage.sync.set({'bookmark_location': id}, function() {
+			chrome.tabs.create({url: "http://www.digitalgradient.com/facebookbookmarkpost/"});
+		});
+        }
     });
 }
 install_notice();

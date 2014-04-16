@@ -3,7 +3,7 @@
 
   "name": "Facebook - Bookmark Post",
   "description": "This extension lets users bookmark their favorite posts by adding a special Bookmark Button to each post in their news feed.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "background": {
     "scripts": ["background.js"]
   },
