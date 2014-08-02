@@ -204,7 +204,7 @@ function getTitle(postInfo)
 }
 
 function displayBookmarkTopMessage(message){
-	$("<div />", { class: 'topbar', text: message }).hide().appendTo("#blueBar").slideDown('fast').delay(2000).slideUp(function() { $(this).remove(); });
+	$("<div />", { class: 'topbar', text: message }).hide().appendTo("#blueBarNAXAnchor").slideDown('fast').delay(2000).slideUp(function() { $(this).remove(); });
 }
 
 
